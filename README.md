@@ -1,2 +1,2 @@
-# Lab-3
-CS 350 lab three work
+# Zesco Issue Tracker
+CS 350 lab(3) work
