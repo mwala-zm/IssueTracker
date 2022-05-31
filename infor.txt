@@ -1,0 +1,8 @@
+Name: Mwala Zechariah Mulenga
+Student Number: 19143403
+Program: BSc Computer Science
+Course: Object Oriented programming
+Code: CS 350
+Assignment: 1
+
+Due: 7th June 2022
