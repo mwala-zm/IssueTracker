@@ -33,7 +33,7 @@
     <img src="cbu.png" alt="Logo" width="360" height="360">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">Zesco PLC IssueTracker</h3>
 
   <p align="center">
     project_description
