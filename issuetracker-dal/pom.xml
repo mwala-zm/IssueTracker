@@ -12,11 +12,13 @@
 	<artifactId>issuetracker-dal</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>issuetracker-dal</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Zesco PLc Project</description>
 	<properties>
 		<java.version>18</java.version>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
 	</properties>
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>

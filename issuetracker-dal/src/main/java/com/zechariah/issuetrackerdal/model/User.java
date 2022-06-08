@@ -1,23 +1,28 @@
 package com.zechariah.issuetrackerdal.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
-
-@Entity
+@Table
+@Entity(name = "user" )
 public class User {
 
-    private  @Id
-    @GeneratedValue
-    Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Long id;
+
+    @Column(
+            name = "username",
+            nullable = false,
+            columnDefinition = "TEXT"
+    )
     private String username;
+
+    @Column(name = "role")
     private String role;
 
-    public User() {}
-
-     User(String username, String role) {
+    User(String username, String role) {
         this.username = username;
         this.role = role;
     }

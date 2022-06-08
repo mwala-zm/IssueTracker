@@ -1,73 +1,35 @@
 package com.zechariah.issuetrackerdal.controller;
 
-import com.zechariah.issuetrackerdal.exceptions.UserNotFound;
 import com.zechariah.issuetrackerdal.model.User;
-import com.zechariah.issuetrackerdal.repository.UserRepository;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.zechariah.issuetrackerdal.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 @RestController
+@RequestMapping("/api")
 public class UserController {
-    private final UserRepository repository;
+    @Autowired
+    UserService userService;
 
-    UserController(UserRepository repository) {
-        this.repository = repository;
+    @RequestMapping(value="/users", method=RequestMethod.POST)
+    public User createUser(@RequestBody User user){
+        return userService.createUser(user);
     }
 
-    @GetMapping("/users")
-    List<User> all() {
-        return (List<User>) repository.findAll();
+    @RequestMapping(value="/users", method=RequestMethod.GET)
+    public List<User> getUsers(){
+        return userService.getUsers();
     }
 
-
-    @PostMapping("/users")
-    User newUser(@RequestBody User newUser) {
-        return repository.save(newUser);
+    @RequestMapping(value="/users/{userId}", method=RequestMethod.PUT)
+    public User readUser(@PathVariable(value = "userId") Long id, @RequestBody User userDetails){
+        return userService.updateUser(id, userDetails);
     }
 
-    // EntityModel builds link to controller class, and it's associated methods
-    @GetMapping("/users/{id}")
-    EntityModel<User> one(@PathVariable Long id) {
-
-        User user = repository.findById(id)
-                .orElseThrow(() -> new UserNotFound(id));
-
-        return EntityModel.of(user, linkTo(methodOn(UserController.class).one(id)).withSelfRel(),
-                // builds link to agregate root, calling it "Users"
-                linkTo(methodOn(UserController.class).all()).withRel("Users"));
+    @RequestMapping(value="/users/{userId}", method=RequestMethod.DELETE)
+    public void removeUser(@PathVariable(value = "userId")Long id){
+        userService.removeUser(id);
     }
-
-    @PutMapping("/users/{id}")
-    User replaceUser(@RequestBody User newUser, @PathVariable Long id) {
-
-        return repository.findById(id)
-                .map(user -> {
-                    user.setUsername(newUser.getUsername());
-                    user.setRole(newUser.getRole());
-                    return repository.save(user);
-                })
-                .orElseGet(() -> {
-                    newUser.setId(id);
-                    return repository.save(newUser);
-                });
-    }
-
-    @DeleteMapping("/users/{id}")
-    void deleteUser(@PathVariable Long id) {
-        repository.deleteById(id);
-    }
-
 }
