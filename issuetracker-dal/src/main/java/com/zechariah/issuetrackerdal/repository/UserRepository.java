@@ -1,9 +1,13 @@
 package com.zechariah.issuetrackerdal.repository;
 
-import com.zechariah.issuetrackerdal.model.User;
+import com.zechariah.issuetrackerdal.model.UserModel;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+import java.util.Optional;
 
+@Repository
+public interface UserRepository extends JpaRepository<UserModel, Long>{
 
+    Optional<UserModel> findByUsername(String username);
 }
