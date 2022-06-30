@@ -28,7 +28,7 @@
 <h3 align="center">Zesco PLC IssueTracker</h3>
 
   <p align="center">
-    project_description
+    The Copperbelt University 2022 assignment
     <br />
     <a href="https://github.com/mwala-zm/IssueTracker"><strong>Explore the docs »</strong></a>
     <br />
