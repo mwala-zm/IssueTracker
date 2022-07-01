@@ -9,6 +9,6 @@ public class EncryptionTest {
     @Test
     public void encrypt(){
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        System.out.println(passwordEncoder.encode("asdfasdf"));
+        System.out.println(passwordEncoder.encode("123456789"));
     }
 }

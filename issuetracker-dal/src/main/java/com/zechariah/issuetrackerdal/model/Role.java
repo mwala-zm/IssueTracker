@@ -15,11 +15,6 @@ public class Role implements GrantedAuthority {
     @Column(name = "authority_role")
     private String authority;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
-    private UserModel user;
-
-
     public Role() {
     }
 
@@ -35,14 +30,6 @@ public class Role implements GrantedAuthority {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Override
     public String getAuthority() {
         return authority;
@@ -52,25 +39,17 @@ public class Role implements GrantedAuthority {
         this.authority = authority;
     }
 
-    public UserModel getUser() {
-        return user;
-    }
-
-    public void setUser(UserModel user) {
-        this.user = user;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Role role = (Role) o;
-        return Objects.equals(id, role.id) && Objects.equals(name, role.name) && Objects.equals(authority, role.authority) && Objects.equals(user, role.user);
+        return Objects.equals(id, role.id) && Objects.equals(name, role.name) && Objects.equals(authority, role.authority);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, authority, user);
+        return Objects.hash(id, name, authority);
     }
 
     @Override
@@ -79,7 +58,6 @@ public class Role implements GrantedAuthority {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", authority='" + authority + '\'' +
-                ", user=" + user +
                 '}';
     }
 }

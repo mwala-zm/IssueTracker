@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,7 +32,6 @@ public class AuthController {
                         request.getUsername(), request.getPassword()
                         )
                 );
-
             UserModel user = (UserModel) authenticate.getPrincipal();
 
             return ResponseEntity.ok()
@@ -41,7 +41,7 @@ public class AuthController {
                     )
                     .body(user);
         }catch(BadCredentialsException ex){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return new ResponseEntity<>(ex, HttpStatus.UNAUTHORIZED);
         }
     }
 
