@@ -11,9 +11,12 @@ public class EquipmentModel {
     private String description;
     private String location;
 
-    EquipmentModel() {}
+    EquipmentModel() {
+        super();
+    }
 
     public EquipmentModel(String name, String description, String location) {
+        super();
         this.name = name;
         this.description = description;
         this.location = location;

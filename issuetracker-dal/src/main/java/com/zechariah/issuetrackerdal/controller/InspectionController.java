@@ -33,7 +33,7 @@ public class InspectionController {
         this.assembler = assembler;
     }
 
-    @GetMapping(value = "/issue")
+    @GetMapping(value = "/inspection")
     public CollectionModel<EntityModel<InspectionModel>> all() {
 
         List<EntityModel<InspectionModel>> inspection = inspectionRepository.findAll().stream()
@@ -44,7 +44,7 @@ public class InspectionController {
                 linkTo(methodOn(InspectionController.class).all()).withSelfRel());
     }
 
-    @GetMapping(value = "/issue/{id}")
+    @GetMapping(value = "/inspection/{id}")
     public EntityModel<InspectionModel> one(@PathVariable Long id) {
 
         InspectionModel inspectionModel = inspectionRepository.findById(id)
@@ -53,7 +53,7 @@ public class InspectionController {
         return assembler.toModel(inspectionModel);
     }
 
-    @PostMapping(value = "/issue")
+    @PostMapping(value = "/inspection")
     public ResponseEntity<EntityModel<InspectionModel>> newInspection(@RequestBody InspectionModel inspectionModel) {
 
         inspectionModel.setStatus(Status.IN_PROGRESS);
@@ -64,7 +64,7 @@ public class InspectionController {
                 .body(assembler.toModel(newInspectionModel));
     }
 
-    @PutMapping(value = "/issue/{id}/complete")
+    @PutMapping(value = "/inspection/{id}/complete")
     public ResponseEntity<?> completeInspection(@PathVariable Long id) {
 
         InspectionModel inspectionModel = inspectionRepository.findById(id)
@@ -83,7 +83,7 @@ public class InspectionController {
                         .withDetail("The Inspection is not complete " + inspectionModel.getStatus() + " status"));
     }
 
-    @DeleteMapping(value = "/issue/{id}/cancel")
+    @DeleteMapping(value = "/inspection/{id}/cancel")
     public ResponseEntity<?> cancelInspection(@PathVariable Long id) {
 
         InspectionModel inspectionModel = inspectionRepository.findById(id)
@@ -101,4 +101,5 @@ public class InspectionController {
                         .withTitle("Method not allowed")
                         .withDetail("You can't remove an issue that is in the " + inspectionModel.getStatus() + " status"));
     }
+
 }

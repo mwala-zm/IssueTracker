@@ -8,6 +8,7 @@ import com.zechariah.issuetrackerdal.model.EquipmentModel;
 import com.zechariah.issuetrackerdal.model.UserModel;
 import com.zechariah.issuetrackerdal.model.assembler.EquipmentAssembler;
 import com.zechariah.issuetrackerdal.repository.EquipmentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -26,7 +27,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 public class EquipmentController {
 
+    @Autowired
     EquipmentRepository repository;
+
     EquipmentAssembler assembler;
     EquipmentController(EquipmentRepository repository, EquipmentAssembler assembler) {
         this.repository = repository;
@@ -36,7 +39,7 @@ public class EquipmentController {
 
 
 
-    @GetMapping("/machine")
+    @GetMapping(value = "/equipment")
     public CollectionModel<EntityModel<EquipmentModel>> getAll() {
 
         List<EntityModel<EquipmentModel>> users = repository.findAll().stream()
@@ -47,7 +50,7 @@ public class EquipmentController {
                 linkTo(methodOn(EquipmentController.class).getAll()).withSelfRel());
     }
 
-    @PostMapping("/machine")
+    @PostMapping(value = "/equipment")
     public ResponseEntity<?> newMachine(@RequestBody EquipmentModel newMachine){
 
             EntityModel<EquipmentModel> entityModel = assembler.toModel(repository.save(newMachine));
@@ -58,7 +61,7 @@ public class EquipmentController {
         }
 
 
-    @GetMapping("/machine/{id}")
+    @GetMapping(value = "/equipment/{id}")
     public EntityModel<EquipmentModel> oneMachine(@PathVariable Long id) {
 
         EquipmentModel machine = repository.findById(id)
@@ -67,7 +70,7 @@ public class EquipmentController {
         return assembler.toModel(machine);
     }
 
-    @PutMapping("/machine/{id}")
+    @PutMapping("/equipment/{id}")
     public EquipmentModel replaceMachine(@RequestBody EquipmentModel newMachine, @PathVariable Long id) {
 
         return repository.findById(id)
@@ -83,7 +86,7 @@ public class EquipmentController {
                 });
     }
 
-    @DeleteMapping("/machine/{id}")
+    @DeleteMapping(value = "/equipment/{id}")
     public ResponseEntity<?> deleteMachine(@PathVariable Long id) {
         repository.deleteById(id);
 

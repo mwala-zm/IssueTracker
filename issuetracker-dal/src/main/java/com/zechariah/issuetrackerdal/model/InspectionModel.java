@@ -19,18 +19,24 @@ public class InspectionModel {
     private String date;
     private String comment;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id")
     private UserModel user;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id")
     private EquipmentModel equipment;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "id")
     private State state;
 
-    public InspectionModel(){}
+    public InspectionModel(){
+        super();
+    }
 
     public InspectionModel(String description, Status status, String name, String date, String comment) {
+        super();
         this.description = description;
         this.status = status;
         this.name = name;
