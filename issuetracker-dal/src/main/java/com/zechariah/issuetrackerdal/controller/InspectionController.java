@@ -1,10 +1,13 @@
 package com.zechariah.issuetrackerdal.controller;
 
 import com.zechariah.issuetrackerdal.exceptions.InspectionNotFound;
+import com.zechariah.issuetrackerdal.model.EquipmentModel;
 import com.zechariah.issuetrackerdal.model.InspectionModel;
 import com.zechariah.issuetrackerdal.model.assembler.InspectionModelAssembler;
 import com.zechariah.issuetrackerdal.model.enums.Status;
+import com.zechariah.issuetrackerdal.repository.EquipmentRepository;
 import com.zechariah.issuetrackerdal.repository.InspectionRepository;
+import com.zechariah.issuetrackerdal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -25,11 +28,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class InspectionController {
     @Autowired
     InspectionRepository inspectionRepository;
+    EquipmentRepository equipmentRepository;
+    UserRepository userRepository;
     
     InspectionModelAssembler assembler;
 
-    public InspectionController(InspectionRepository inspectionRepository, InspectionModelAssembler assembler) {
+    public InspectionController(InspectionRepository inspectionRepository, EquipmentRepository equipmentRepository, InspectionModelAssembler assembler) {
         this.inspectionRepository = inspectionRepository;
+        this.equipmentRepository = equipmentRepository;
         this.assembler = assembler;
     }
 
@@ -57,6 +63,8 @@ public class InspectionController {
     public ResponseEntity<EntityModel<InspectionModel>> newInspection(@RequestBody InspectionModel inspectionModel) {
 
         inspectionModel.setStatus(Status.IN_PROGRESS);
+        inspectionModel.setEquipment(equipmentRepository.getById(1L));
+
         InspectionModel newInspectionModel = inspectionRepository.save(inspectionModel);
 
         return ResponseEntity
