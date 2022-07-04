@@ -7,6 +7,7 @@ import com.zechariah.issuetrackerdal.model.assembler.InspectionModelAssembler;
 import com.zechariah.issuetrackerdal.model.enums.Status;
 import com.zechariah.issuetrackerdal.repository.EquipmentRepository;
 import com.zechariah.issuetrackerdal.repository.InspectionRepository;
+import com.zechariah.issuetrackerdal.repository.StateRepository;
 import com.zechariah.issuetrackerdal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
@@ -30,12 +31,15 @@ public class InspectionController {
     InspectionRepository inspectionRepository;
     EquipmentRepository equipmentRepository;
     UserRepository userRepository;
+    StateRepository stateRepository;
     
     InspectionModelAssembler assembler;
 
-    public InspectionController(InspectionRepository inspectionRepository, EquipmentRepository equipmentRepository, InspectionModelAssembler assembler) {
+    public InspectionController(InspectionRepository inspectionRepository, EquipmentRepository equipmentRepository, StateRepository stateRepository, UserRepository userRepository, InspectionModelAssembler assembler) {
         this.inspectionRepository = inspectionRepository;
         this.equipmentRepository = equipmentRepository;
+        this.userRepository = userRepository;
+        this.stateRepository = stateRepository;
         this.assembler = assembler;
     }
 
@@ -63,7 +67,9 @@ public class InspectionController {
     public ResponseEntity<EntityModel<InspectionModel>> newInspection(@RequestBody InspectionModel inspectionModel) {
 
         inspectionModel.setStatus(Status.IN_PROGRESS);
-        inspectionModel.setEquipment(equipmentRepository.getById(1L));
+        inspectionModel.setEquipment(equipmentRepository.findById(1L).orElse(null));
+        inspectionModel.setUsers(userRepository.findById(1L).orElse(null));
+        inspectionModel.setState(stateRepository.findById(1L).orElse(null));
 
         InspectionModel newInspectionModel = inspectionRepository.save(inspectionModel);
 
