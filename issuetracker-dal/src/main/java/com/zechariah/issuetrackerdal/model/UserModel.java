@@ -21,13 +21,15 @@ public class UserModel implements UserDetails {
   private String username;
   private String password;
 
-  @ManyToOne(optional = false)
+  @ManyToOne(optional = false, cascade = CascadeType.ALL)
   private Role role;
 
   public UserModel() {
+    super();
   }
 
   public UserModel(String username, String password, Role role) {
+    super();
     this.username = username;
     this.password = password;
     this.role = role;
