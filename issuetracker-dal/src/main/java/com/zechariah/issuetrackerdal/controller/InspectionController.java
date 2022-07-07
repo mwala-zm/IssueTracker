@@ -64,7 +64,9 @@ public class InspectionController {
     }
 
     @PostMapping(value = "/inspection")
-    public ResponseEntity<EntityModel<InspectionModel>> newInspection(@RequestBody InspectionModel inspectionModel) {
+    public ResponseEntity<EntityModel<InspectionModel>> newInspection(@RequestBody InspectionModel inspectionModel, String equipment_id) {
+
+        System.out.println(equipment_id);
 
         inspectionModel.setStatus(Status.IN_PROGRESS);
         inspectionModel.setEquipment(equipmentRepository.findById(1L).orElse(null));
