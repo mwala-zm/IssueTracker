@@ -1,11 +1,7 @@
 package com.zechariah.issuetrackerdal.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.zechariah.issuetrackerdal.exceptions.MachineNotFound;
 import com.zechariah.issuetrackerdal.model.EquipmentModel;
-import com.zechariah.issuetrackerdal.model.UserModel;
 import com.zechariah.issuetrackerdal.model.assembler.EquipmentAssembler;
 import com.zechariah.issuetrackerdal.repository.EquipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +9,10 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -31,12 +24,11 @@ public class EquipmentController {
     EquipmentRepository repository;
 
     EquipmentAssembler assembler;
+
     EquipmentController(EquipmentRepository repository, EquipmentAssembler assembler) {
         this.repository = repository;
         this.assembler = assembler;
     }
-
-
 
 
     @GetMapping(value = "/equipment")
@@ -51,14 +43,14 @@ public class EquipmentController {
     }
 
     @PostMapping(value = "/equipment")
-    public ResponseEntity<?> newMachine(@RequestBody EquipmentModel newMachine){
+    public ResponseEntity<?> newMachine(@RequestBody EquipmentModel newMachine) {
 
-            EntityModel<EquipmentModel> entityModel = assembler.toModel(repository.save(newMachine));
+        EntityModel<EquipmentModel> entityModel = assembler.toModel(repository.save(newMachine));
 
-            return ResponseEntity
-                    .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
-                    .body(entityModel);
-        }
+        return ResponseEntity
+                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(entityModel);
+    }
 
 
     @GetMapping(value = "/equipment/{id}")
@@ -90,6 +82,6 @@ public class EquipmentController {
     public ResponseEntity<?> deleteMachine(@PathVariable Long id) {
         repository.deleteById(id);
 
-        return  ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();
     }
 }

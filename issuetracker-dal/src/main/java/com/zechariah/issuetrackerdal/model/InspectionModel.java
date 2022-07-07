@@ -2,12 +2,11 @@ package com.zechariah.issuetrackerdal.model;
 
 import com.zechariah.issuetrackerdal.model.enums.Status;
 
+import javax.persistence.*;
 import java.util.Objects;
 
-import javax.persistence.*;
-
 @Entity(name = "inspection")
-public class InspectionModel { 
+public class InspectionModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,7 +30,7 @@ public class InspectionModel {
     @JoinColumn(referencedColumnName = "id")
     private State state;
 
-    public InspectionModel(){
+    public InspectionModel() {
         super();
     }
 

@@ -1,7 +1,6 @@
 package com.zechariah.issuetrackerdal.controller;
 
 import com.zechariah.issuetrackerdal.exceptions.InspectionNotFound;
-import com.zechariah.issuetrackerdal.model.EquipmentModel;
 import com.zechariah.issuetrackerdal.model.InspectionModel;
 import com.zechariah.issuetrackerdal.model.assembler.InspectionModelAssembler;
 import com.zechariah.issuetrackerdal.model.enums.Status;
@@ -29,10 +28,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class InspectionController {
     @Autowired
     InspectionRepository inspectionRepository;
+    @Autowired
     EquipmentRepository equipmentRepository;
+    @Autowired
     UserRepository userRepository;
+    @Autowired
     StateRepository stateRepository;
-    
+
     InspectionModelAssembler assembler;
 
     public InspectionController(InspectionRepository inspectionRepository, EquipmentRepository equipmentRepository, StateRepository stateRepository, UserRepository userRepository, InspectionModelAssembler assembler) {
@@ -43,7 +45,7 @@ public class InspectionController {
         this.assembler = assembler;
     }
 
-    @GetMapping(value = "/inspection")
+    @GetMapping(value = "/inspections")
     public CollectionModel<EntityModel<InspectionModel>> all() {
 
         List<EntityModel<InspectionModel>> inspection = inspectionRepository.findAll().stream()
@@ -69,10 +71,9 @@ public class InspectionController {
         System.out.println(equipment_id);
 
         inspectionModel.setStatus(Status.IN_PROGRESS);
-        inspectionModel.setEquipment(equipmentRepository.findById(1L).orElse(null));
         inspectionModel.setUsers(userRepository.findById(1L).orElse(null));
-        inspectionModel.setState(stateRepository.findById(1L).orElse(null));
-
+        inspectionModel.setEquipment(equipmentRepository.findById(1L).orElse(null));
+        inspectionModel.setState(stateRepository.findById(10L).orElse(null));
         InspectionModel newInspectionModel = inspectionRepository.save(inspectionModel);
 
         return ResponseEntity

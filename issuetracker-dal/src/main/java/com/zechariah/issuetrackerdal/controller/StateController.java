@@ -23,7 +23,7 @@ public class StateController {
     }
 
     @PostMapping(value = "/state")
-    State newState(@RequestBody State state){
+    public State newState(@RequestBody State state){
         return  repository.save(state);
     }
 

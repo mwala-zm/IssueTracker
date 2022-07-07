@@ -1,12 +1,16 @@
 package com.zechariah.issuetrackerdal.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Objects;
 
 @Entity(name = "equipment")
 public class EquipmentModel {
 
-    private @Id @GeneratedValue Long id;
+    private @Id
+    @GeneratedValue
+    Long id;
     private String name;
     private String description;
     private String location;

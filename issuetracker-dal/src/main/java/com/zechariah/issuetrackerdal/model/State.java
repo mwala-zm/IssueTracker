@@ -20,6 +20,7 @@ public class State {
 
     public State(String name, String description) {
         this.name = name;
+        this.description = description;
 
     }
 
@@ -47,4 +48,12 @@ public class State {
         this.description = description;
     }
 
+    @Override
+    public String toString() {
+        return "State{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
