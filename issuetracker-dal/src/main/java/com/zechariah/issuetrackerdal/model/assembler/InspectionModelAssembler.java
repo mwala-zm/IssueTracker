@@ -19,7 +19,7 @@ public class InspectionModelAssembler implements RepresentationModelAssembler<In
 
         EntityModel<InspectionModel> inspect = EntityModel.of(inspectionModel,
                 linkTo(methodOn(InspectionController.class).one(inspectionModel.getId())).withSelfRel(),
-                linkTo(methodOn(InspectionController.class).all()).withRel("orders"));
+                linkTo(methodOn(InspectionController.class).all()).withRel("inspection"));
 
         // Conditional links based on state of the issue
 

@@ -34,7 +34,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         //Get authorization
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if(!StringUtils.hasText(header) || (StringUtils.hasText(header) && !header.startsWith("Bearer "))){
+        if (!StringUtils.hasText(header) || (StringUtils.hasText(header) && !header.startsWith("Bearer "))) {
             chain.doFilter(request, response);
             return;
         }
@@ -45,16 +45,16 @@ public class JwtFilter extends OncePerRequestFilter {
                 .findByUsername(jwtUtil.getUsernameFromToken(token))
                 .orElse(null);
 
-        if (!jwtUtil.validateToken(token, userDetails)){
+        if (!jwtUtil.validateToken(token, userDetails)) {
             chain.doFilter(request, response);
             return;
         }
 
         UsernamePasswordAuthenticationToken
                 authentication = new UsernamePasswordAuthenticationToken(
-                        userDetails, null,
-                        userDetails == null ?
-                                List.of() : userDetails.getAuthorities()
+                userDetails, null,
+                userDetails == null ?
+                        List.of() : userDetails.getAuthorities()
         );
 
         authentication.setDetails(
