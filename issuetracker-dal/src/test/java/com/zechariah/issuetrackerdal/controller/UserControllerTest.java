@@ -29,7 +29,7 @@ class UserControllerTest {
 
     @BeforeEach
     public void setUp() {
-        user = new UserModel(1L,"hanzo", "asdfgasdfg", new Role("", "Inspector"));
+        user = new UserModel("hanzo", "asdfgasdfg", new Role("", "Inspector"));
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
     }
 

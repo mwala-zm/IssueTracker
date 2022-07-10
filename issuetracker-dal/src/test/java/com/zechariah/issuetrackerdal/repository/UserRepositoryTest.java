@@ -27,7 +27,7 @@ class UserRepositoryTest {
     @BeforeEach
     public void setUp() {
 
-        user = new UserModel(1L, "mwala", "123456789", role);
+        user = new UserModel("mwala", "123456789", role);
     }
 
     @AfterEach
@@ -42,20 +42,20 @@ class UserRepositoryTest {
         repository.save(user);
         UserModel fetchedUser = repository.findById(user.getId()).get();
 
-        assertEquals(1, fetchedUser.getId());
+        assertEquals("mwala", fetchedUser.getUsername());
     }
 
     // Getting a list of all users
     @Test
     public void givenUsersReturnUsers(){
-        UserModel user = new UserModel(1L,"J.Cole", "asdfasdf", role);
-        UserModel userModel = new UserModel(2L, "Bas", "dreamvile1", role);
+        UserModel user = new UserModel("J.Cole", "asdfasdf", role);
+        UserModel userModel = new UserModel("Bas", "dreamvile1", role);
         repository.save(user);
         repository.save(userModel);
 
         List<UserModel> userModelList = (List<UserModel>) repository.findAll();
 
-        assertEquals("J.Cole", userModelList);
+        assertEquals("J.Cole", userModel.getUsername());
     }
 
 }

@@ -28,9 +28,8 @@ public class UserModel implements UserDetails {
         super();
     }
 
-    public UserModel(Long id, String username, String password, Role role) {
+    public UserModel(String username, String password, Role role) {
         super();
-        this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
