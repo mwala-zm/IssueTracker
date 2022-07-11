@@ -1,5 +1,7 @@
 package com.zechariah.issuetrackerdal.model;
 
+import org.mapstruct.Builder;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,9 +17,7 @@ public class EquipmentModel {
     private String description;
     private String location;
 
-    EquipmentModel() {
-        super();
-    }
+    EquipmentModel(){};
 
     public EquipmentModel(String name, String description, String location) {
         super();

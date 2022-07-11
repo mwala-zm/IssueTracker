@@ -3,84 +3,62 @@ package com.zechariah.issuetrackerdal.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zechariah.issuetrackerdal.model.EquipmentModel;
 import com.zechariah.issuetrackerdal.repository.EquipmentRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-class EquipmentControllerTest {
-
-    @Mock
-    private EquipmentRepository repository;
-    private EquipmentModel equipment;
-    private List<EquipmentModel> equipmentList;
-
-    @InjectMocks
-    private EquipmentController equipmentController;
+@WebMvcTest(EquipmentController.class)
+public class EquipmentControllerTest {
+    @Autowired
+    MockMvc mockMvc;
 
     @Autowired
-    private MockMvc mockMvc;
+    ObjectMapper mapper;
 
-    @BeforeEach
-    public void setUp() {
-        equipment = new EquipmentModel("uhmm exeh", "wilding", "chamba Valley");
-        mockMvc = MockMvcBuilders.standaloneSetup(equipmentController).build();
+    @MockBean
+    EquipmentRepository repository;
 
-    }
-
-    @AfterEach
-    void tearDown() {
-        equipment = null;
-    }
-
-
+    EquipmentModel machine1 = new EquipmentModel("GenSet", "New", "Chipata");
+    EquipmentModel machine2 = new EquipmentModel("Transformer", "old 89 model", "Chililabombwe");
 
     @Test
-    public void postMethod() throws Exception {
-        when(repository.save(equipment)).thenReturn(equipment);
-            mockMvc.perform(post("/equipment")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(asJsonString(equipment)))
-                    .andExpect(status().isCreated());
+    public void allEquipment() throws Exception {
+        List<EquipmentModel> machines = new ArrayList<>(Arrays.asList(machine1, machine2));
+
+        Mockito.when(repository.findAll()).thenReturn(machines);
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/patient")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[1].name", is("Transformer")));
     }
 
     @Test
-    public void getMethod() throws Exception{
-        mockMvc.perform(MockMvcRequestBuilders.get("/equipment")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(equipment)))
-                .andDo(MockMvcResultHandlers.print());
-        verify(repository.findAll());
+    public void getPatientById_success() throws Exception {
+        Mockito.when(repository.findById(machine1.getId())).thenReturn(java.util.Optional.of(machine1));
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/equipment/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.name", is("GenSet")));
     }
 
-
-    public static String asJsonString(final Object obj){
-        try{
-            return new ObjectMapper().writeValueAsString(obj);
-        }
-        catch (Exception ex){
-            throw new RuntimeException(ex);
-        }
-    }
 }
