@@ -30,7 +30,7 @@
   <p align="center">
     The Copperbelt University 2022 assignment
     <br />
-    <a href="https://github.com/mwala-zm/IssueTracker"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/mwala-zm/IssueTracker/README.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/mwala-zm/IssueTracker">View Demo</a>
