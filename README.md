@@ -170,8 +170,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- CONTACT -->
 ## Contact
-Mwala Zechariah Mulenga - [@mwala_zm](https://twitter.com/mwala_zm) 
-- mwalazechariahmulenga@gmail.com
+Mwala Zechariah Mulenga
 
 Project Link: [IssueTracker](https://github.com/mwala-zm/IssueTracker)
 <br/>
